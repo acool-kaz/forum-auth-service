@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package grpc.auth_svc;
+
+option go_package = "pkg/auth_svc/pb;auth_svc_pb";
+
+service AuthService {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc Validate(ValidateRequest) returns (ValidateResponse);
+    rpc Refresh(RefreshRequest) returns (RefreshResponse);
+}
+
+message RegisterRequest {
+    string first_name = 1;
+    string last_name = 2;
+    string email = 3;
+    string username = 4;
+    string password = 5;
+}
+
+message RegisterResponse {
+    int64 id = 1;
+}
+
+message LoginRequest {
+    optional string email = 1;
+    optional string username = 2;
+    string password = 3;
+}
+
+message LoginResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message ValidateRequest {
+    string access_token = 1;
+}
+
+message ValidateResponse {
+    int32 user_id = 1;
+}
+
+message RefreshRequest {
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message RefreshResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+}

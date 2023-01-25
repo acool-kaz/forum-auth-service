@@ -1,0 +1,15 @@
+{
+    "grpc": {
+        "host": "0.0.0.0",
+        "port": "50501",
+        "type": "tcp"
+    },
+    "database": {
+        "host": "postgres-db",
+        "port": "5432",
+        "username": "postgres",
+        "password": "qwerty",
+        "name": "postgres",
+        "ssl_mode": "disable"
+    }
+}

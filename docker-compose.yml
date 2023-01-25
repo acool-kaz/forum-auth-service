@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build: .
+    ports:
+      - "127.0.0.1:50501:50501"
+    command: air --build.cmd "go build -o bin/api cmd/main.go" --build.bin "./bin/api"
+    volumes:
+      - .:/usr/src/app
+  postgres-db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+volumes:
+  postgres-db:
