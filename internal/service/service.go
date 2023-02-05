@@ -10,6 +10,8 @@ import (
 
 type Auth interface {
 	Register(ctx context.Context, user models.User) (uint, error)
+	Login(ctx context.Context, user models.User) (string, string, error)
+	ParseToken(ctx context.Context, accessToken string) (uint, error)
 }
 
 type Service struct {

@@ -3,6 +3,8 @@ version: '3.8'
 services:
   auth-service:
     build: .
+    environment:
+      - JWT_SALT=qwerty123qwerty
     ports:
       - "127.0.0.1:50501:50501"
     command: air --build.cmd "go build -o bin/api cmd/main.go" --build.bin "./bin/api"

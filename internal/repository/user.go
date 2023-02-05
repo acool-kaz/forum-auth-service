@@ -58,7 +58,7 @@ func (r *UserRepository) Get(ctx context.Context) ([]models.User, error) {
 
 	whereCondition := ""
 	if len(argsStr) != 0 {
-		whereCondition = " WHERE " + strings.Join(argsStr, " OR ")
+		whereCondition = " WHERE " + strings.Join(argsStr, " AND ")
 	}
 
 	query := fmt.Sprintf("SELECT * FROM %s%s;", userTable, whereCondition)

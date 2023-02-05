@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/acool-kaz/forum-auth-service/internal/models"
@@ -39,11 +40,33 @@ func (a *AuthSvcHandler) Register(ctx context.Context, req *auth_svc_pb.Register
 }
 
 func (a *AuthSvcHandler) Login(ctx context.Context, req *auth_svc_pb.LoginRequest) (*auth_svc_pb.LoginResponse, error) {
-	return nil, nil
+	user := models.User{
+		Email:    *req.Email,
+		Username: *req.Username,
+		Password: req.Password,
+	}
+
+	access, refresh, err := a.service.Auth.Login(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &auth_svc_pb.LoginResponse{
+		AccessToken:  access,
+		RefreshToken: refresh,
+	}, nil
 }
 
 func (a *AuthSvcHandler) Validate(ctx context.Context, req *auth_svc_pb.ValidateRequest) (*auth_svc_pb.ValidateResponse, error) {
-	return nil, nil
+	userId, err := a.service.Auth.ParseToken(ctx, req.GetAccessToken())
+
+	fmt.Println(userId, err)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &auth_svc_pb.ValidateResponse{UserId: int32(userId)}, nil
 }
 
 func (a *AuthSvcHandler) Refresh(ctx context.Context, req *auth_svc_pb.RefreshRequest) (*auth_svc_pb.RefreshResponse, error) {
