@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/acool-kaz/forum-auth-service/internal/models"
@@ -59,9 +58,6 @@ func (a *AuthSvcHandler) Login(ctx context.Context, req *auth_svc_pb.LoginReques
 
 func (a *AuthSvcHandler) Validate(ctx context.Context, req *auth_svc_pb.ValidateRequest) (*auth_svc_pb.ValidateResponse, error) {
 	userId, err := a.service.Auth.ParseToken(ctx, req.GetAccessToken())
-
-	fmt.Println(userId, err)
-
 	if err != nil {
 		return nil, err
 	}
